@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seismic Virtual Lab</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- 🔥 Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- 🔹 Background bubble mist -->
+<canvas id="mistCanvas"></canvas>
+
+<!-- 🔹 Grid background -->
+<div class="grid-overlay"></div>
+
+<!-- 🔹 Cursor mist -->
+<div id="cursorMist"></div>
+
+<!-- 🔹 Main UI -->
+<div class="lab-wrapper">
+
+    <div class="lab-header">
+        <h1>Seismic Response Virtual Lab</h1>
+        <p class="tagline">
+            Interactive virtual laboratory to study the structural response of
+            multi-storey buildings under earthquake excitation
+        </p>
+    </div>
+
+    <div class="lab-panel">
+
+        <!-- 🔹 LEFT PANEL -->
+        <div class="control-panel">
+            <h2>Simulation Controls</h2>
+
+            <div class="input-box">
+                <label>Mass (kg)</label>
+                <input type="number" id="mass" value="1000">
+            </div>
+
+            <div class="input-box">
+                <label>Stiffness (N/m)</label>
+                <input type="number" id="stiffness" value="20000">
+            </div>
+
+            <div class="input-box">
+                <label>Damping</label>
+                <input type="number" id="damping" value="1000">
+            </div>
+
+            <div class="input-box">
+                <label>Number of Floors</label>
+                <input type="number" id="floors" value="3" min="1" max="15">
+            </div>
+
+            <button id="runBtn">▶ Run Seismic Simulation</button>
+        </div>
+
+        <!-- 🔹 RIGHT PANEL -->
+        <!-- ✅ FIX: convert into scrollable visualization container -->
+        <div class="visual-panel visualization-container">
+            <h2>Response Visualization</h2>
+
+            <!-- ================= SECTION 1: BUILDING ANIMATION ================= -->
+            <section class="viz-section">
+                <h3>Building Animation</h3>
+
+                <div id="buildingContainer">
+                </div>
+            </section>
+
+            <!-- ================= SECTION 2: INTER-STOREY DRIFT ================= -->
+            <section class="viz-section">
+
+                <h3 style="margin-top:20px;">Inter-Storey Drift</h3>
+
+                <div class="graph-box">
+                    <div class="output drift-output">
+                        <canvas id="driftChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="driftStatus"></div>
+
+                <div class="result-box" id="resultBox">
+                    <p><b>Maximum Drift:</b> <span id="maxDriftValue">--</span></p>
+                    <p><b>Status:</b> <span id="safetyStatus">--</span></p>
+                </div>
+
+            </section>
+
+            <!-- ================= SECTION 3: DISPLACEMENT VS TIME ================= -->
+            <section class="viz-section">
+
+                <h3 style="margin-top:20px;">Displacement vs time</h3>
+
+                <div class="output">
+                    <canvas id="responseChart"></canvas>
+                </div>
+
+            </section>
+
+            <!-- ================= EARTHQUAKE INPUT GRAPH ================= -->
+            <section class="viz-section">
+            <h3>Earthquake Ground Acceleration</h3>
+            <div class="output">
+            <canvas id="groundChart"></canvas>
+            </div>
+            </section>
+
+            <!-- 🔹 Spectral Response -->
+            <section class="viz-section">
+            <h3>Spectral Response</h3>
+            <div class="output">
+            <canvas id="spectralChart"></canvas>
+            </div>
+            </section>
+
+
+
+            <!-- ================= SECTION 4: MODE SHAPE ================= -->
+            <section class="viz-section">
+
+                <h3>Mode Shape</h3>
+
+                <div class="output">
+                    <canvas id="modeShapeChart"></canvas>
+                </div>
+
+            </section>
+
+            <!-- ================= SECTION 5: NATURAL FREQUENCIES ================= -->
+            <section class="viz-section">
+
+                <h3>Natural Frequencies</h3>
+                <div id="frequencyBox"></div>
+
+            </section>
+
+        </div>
+
+    </div>
+    
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
