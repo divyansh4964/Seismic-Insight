@@ -127,7 +127,7 @@ data.frequencies.forEach((f,i)=>{
 });
 
 
-// ================= BACKGROUND BUBBLES =================
+// ================= IMPROVED BACKGROUND BUBBLES =================
 const canvas = document.getElementById("mistCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -139,16 +139,17 @@ resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
 let bubbles = [];
+const BUBBLE_COUNT = 90;   // 🔥 40 → 90 bubbles (more density)
 
 class Bubble {
     constructor() { this.reset(); }
 
     reset() {
         this.x = Math.random() * canvas.width;
-        this.y = canvas.height + Math.random() * 150;
-        this.radius = Math.random() * 7 + 4;
-        this.speed = Math.random() * 1.5 + 0.5;
-        this.alpha = Math.random() * 3.0 + 0.9;
+        this.y = canvas.height + Math.random() * 200;
+        this.radius = Math.random() * 8 + 4;     // bigger bubbles
+        this.speed = Math.random() * 1.5 + 0.8;  // 🔥 faster speed
+        this.alpha = Math.random() * 1 + 0.5;  
     }
 
     update() {
@@ -164,14 +165,32 @@ class Bubble {
     }
 }
 
-for (let i = 0; i < 120; i++) bubbles.push(new Bubble());
+// create bubbles
+for (let i = 0; i < BUBBLE_COUNT; i++) {
+    bubbles.push(new Bubble());
+}
 
-function animateMist() {
+let lastTime = 0;
+function animateMist(time) {
+
+    // 🔒 limit to ~45 FPS (smooth + faster feel)
+    if (time - lastTime < 22) {
+        requestAnimationFrame(animateMist);
+        return;
+    }
+    lastTime = time;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    bubbles.forEach(b => { b.update(); b.draw(); });
+
+    bubbles.forEach(b => {
+        b.update();
+        b.draw();
+    });
+
     requestAnimationFrame(animateMist);
 }
-animateMist();
+
+requestAnimationFrame(animateMist);
 
 
 // ================= CURSOR MIST =================
@@ -572,6 +591,7 @@ function drawBuildingAnimation(displacement, status) {
 
     animate();
 }
+
 
 
 
